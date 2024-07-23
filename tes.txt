@@ -1,0 +1,43 @@
+{
+    "log": {
+        "disabled": false,
+        "level": "info",
+        "output": "box.log",
+        "timestamp": true
+    },
+
+    "inbounds": [
+        {
+            "type": "socks",
+            "listen": "0.0.0.0",
+            "listen_port": 40001,
+            "users": []
+        },
+        {
+            "type": "http",
+            "listen": "0.0.0.0",
+            "listen_port": 40002,
+            "users": [],
+            "tls": {},
+            "set_system_proxy": false
+        }
+    ],
+    "outbounds":[
+        {"tag": "英国+v2rayfree.eu.org", "type": "shadowsocks", "server": "145.239.6.202", "server_port": 4444, "method": "aes-256-gcm", "password": "pKEW8JPByTVTLtM"},
+        {"tag": "美国+华盛顿Cogent通信公司", "type": "shadowsocks", "server": "38.114.114.207", "server_port": 5000, "method": "aes-256-gcm", "password": "Y6R9pAtvxxzmGC"},
+        {
+            "tag": "select",
+            "type": "selector",
+            "default": "英国+v2rayfree.eu.org",
+            "outbounds": [
+                "英国+v2rayfree.eu.org",
+                "美国+华盛顿Cogent通信公司"
+            ],
+            "interrupt_exist_connections": true
+        }
+    ],
+    "route": {
+        "auto_detect_interface": true,
+        "final": "select"
+    }
+}
